@@ -1,0 +1,132 @@
+openapi: 3.0.3
+info:
+  title: Test survey API
+  version: 1.0.0
+tags:
+  - name: questions
+paths:
+  '/questions/{questionId}':
+    get:
+      tags:
+        - questions
+      summary: Get question by Id
+      operationId: getQuestionById
+      parameters:
+        - name: questionId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/QuestionId'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+        '400':
+          description: Invalid.
+        '404':
+          description: Not found.
+    put:
+      tags:
+        - questions
+      summary: Enable or disable a question
+      operationId: enableQuestion
+      parameters:
+        - name: questionId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/QuestionId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableQuestion'
+      responses:
+        '202':
+          description: Accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Invalid.
+  '/questions':
+    get:
+      tags:
+        - questions
+      summary: Get the list of saved questions
+      operationId: getQuestionList
+      responses:
+        '200':
+          description: Found.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+                x-content-type: application/json
+    post:
+      tags:
+        - questions
+      summary: Create new question
+      operationId: createQuestion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+      responses:
+        '202':
+          description: Accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Invalid.
+components:
+  schemas:
+    Question:
+      type: object
+      properties:
+        questionId:
+          type: string
+        disabled:
+          type: boolean
+        questionText:
+          type: string
+        answer:
+          minItems: 1
+          type: array
+          items:
+            type: object
+            properties:
+              answerText:
+                type: string
+              isCorrect:
+                type: boolean
+    EnableQuestion:
+      type: object
+      properties:
+        questionId:
+          type: string
+        disabled:
+          type: boolean
+      required:
+        - questionId
+        - disabled
+    QuestionId:
+      maxLength: 120
+      minLength: 1
+      type: string
+      example: Q1
+    Success:
+      type: string
