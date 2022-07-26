@@ -18,3 +18,8 @@ spring:
     jpa:
       repositories:
         bootstrap-mode: default
+springdoc:
+  swagger-ui:
+    url: "/v2/api-docs"
+    disable-swagger-default-url: true
+
