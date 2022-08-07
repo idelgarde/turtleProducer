@@ -2,24 +2,6 @@ server:
   port: 7018
 application:
   version: 1.0.0
-spring:
-  name: test-survey
-  jackson:
-    default-property-inclusion: non_null
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-  h2:
-    console:
-      enabled: true
-  datasource:
-    url: jdbc:h2:mem:testdb
-  data:
-    jpa:
-      repositories:
-        bootstrap-mode: default
-springdoc:
-  swagger-ui:
-    url: "/v2/api-docs"
-    disable-swagger-default-url: true
-
+endpoint:
+  ppls:
+    url: https://ordspub.epa.gov/ords/pesticides/
